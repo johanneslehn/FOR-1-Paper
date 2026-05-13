@@ -19,7 +19,7 @@ if __name__ == "__main__":
     from ForRegVars import RegVars
     from RegressionFor import RegressionFor
 
-    from FOR_1_Paper.for_utilities import safe_save_dataframe
+    from for_utilities import safe_save_dataframe
 
     agent_vars = rbmpy.AgentVars()
     agent = rbmpy.AlAgent(agent_vars)
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     reg_vars = RegVars()
     reg_vars.n_subj = n_subj  # number of subjects
     reg_vars.n_ker = 4  # number of kernels for estimation
-    reg_vars.n_sp = 50  # number of random starting points
+    reg_vars.n_sp = 100  # number of random starting points
     reg_vars.rand_sp = True  # use random starting points
     reg_vars.use_prior = False
 

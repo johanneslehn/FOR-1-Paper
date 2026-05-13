@@ -13,7 +13,7 @@ def preprocessing():
     """This function loads and preprocesses the adaptive learning BIDS data for further analyses."""
 
     # Data folder
-    folder_path = "for_data/for_bids_data"
+    folder_path = "C:/Users/te65luf/Documents/Nextcloud/1_laufend_FOR_Statistical Learning (HH)/Auswertung/Confetti_beh/data/RU0526/bids_data"
 
     # Get all file names
     identifier = "*behav.tsv"
@@ -77,17 +77,54 @@ def preprocessing():
     data.loc[data["r_t"] == 0, "hit_dummy"] = -1
 
     # Perseveration: pers := 1, if a_t=0; 0, else
-    data["pers"] = a_t == 0
-
-    # Add information on group (here all in the same group)
-    data["group"] = 0
-
-    # Exclude subject 70 (20031)
-    # Todo: provide justification in other script (basically showing weird behavior)
-    data = data[~data["ID"].isin([20031])].reset_index(drop=True)
+    #data["pers"] = a_t == 0
 
     # Add 1 to match Matlab integer logic (starting from 1 instead of 0)
     data["subj_num"] = pd.factorize(data["subj_num"])[0] + 1
+
+    # Add information on group (here all in the same group)
+    data["group"] = -1
+
+    # add groups. 0 = HC, 1 = AD
+    data.loc[data['subj_num'] == 1, 'group'] = 1
+    data.loc[data['subj_num'] == 2, 'group'] = 0
+    data.loc[data['subj_num'] == 3, 'group'] = 0
+    data.loc[data['subj_num'] == 4, 'group'] = 0
+    data.loc[data['subj_num'] == 5, 'group'] = 1
+    data.loc[data['subj_num'] == 6, 'group'] = 0
+    data.loc[data['subj_num'] == 7, 'group'] = 0
+    data.loc[data['subj_num'] == 8, 'group'] = 1
+    data.loc[data['subj_num'] == 9, 'group'] = 1
+    data.loc[data['subj_num'] == 10, 'group'] = 1
+    data.loc[data['subj_num'] == 11, 'group'] = 0
+    data.loc[data['subj_num'] == 12, 'group'] = 1
+    data.loc[data['subj_num'] == 13, 'group'] = 0
+    data.loc[data['subj_num'] == 14, 'group'] = 0
+    data.loc[data['subj_num'] == 15, 'group'] = 1
+    data.loc[data['subj_num'] == 16, 'group'] = 0
+    data.loc[data['subj_num'] == 17, 'group'] = 0
+    data.loc[data['subj_num'] == 18, 'group'] = 1
+    data.loc[data['subj_num'] == 19, 'group'] = 1
+    data.loc[data['subj_num'] == 20, 'group'] = 0
+    data.loc[data['subj_num'] == 21, 'group'] = 0
+    data.loc[data['subj_num'] == 22, 'group'] = 1
+    data.loc[data['subj_num'] == 23, 'group'] = 1
+    data.loc[data['subj_num'] == 24, 'group'] = 0
+    data.loc[data['subj_num'] == 25, 'group'] = 0
+    data.loc[data['subj_num'] == 26, 'group'] = 1
+    data.loc[data['subj_num'] == 27, 'group'] = 1
+    data.loc[data['subj_num'] == 28, 'group'] = 1
+    data.loc[data['subj_num'] == 29, 'group'] = 0
+    data.loc[data['subj_num'] == 30, 'group'] = 1
+    data.loc[data['subj_num'] == 31, 'group'] = 1
+    data.loc[data['subj_num'] == 32, 'group'] = 1
+    data.loc[data['subj_num'] == 33, 'group'] = 0
+    data.loc[data['subj_num'] == 34, 'group'] = 0
+    data.loc[data['subj_num'] == 35, 'group'] = 1
+
+    # check if all subs are assigned
+    if any(data['group'] == -1):
+        sys.exit("Unassigned subject in group")
 
     # Test if expected values appear in preprocessed data frames
     # ----------------------------------------------------------
@@ -98,16 +135,18 @@ def preprocessing():
 
     # Cycle over subjects
     for i in range(n_subj):
-
         # Extract data of current subject
         df_subj = data[(data["subj_num"] == i + 1)].copy()
 
+        #continue when subj 9 (only 4 Blocks) and subj 18 (only 5 blocks)
+        if any(df_subj["ID"] == 80009) or any(df_subj["ID"] == 80518):
+            continue
         # Check expected values
         if not np.sum(np.isnan(df_subj["subj_num"])) == 0:
             sys.exit("Unexpected NaNs in subj_num")
         if not np.sum(np.isnan(df_subj["block"])) == 0:
             sys.exit("Unexpected NaNs in block")
-        if not np.sum(df_subj["new_block"]) == 8:
+        if not np.sum(df_subj["new_block"]) == 6:
             sys.exit("Unexpected NaNs in new_block")
         if not np.sum(np.isnan(df_subj["x_t"])) == 0:
             sys.exit("Unexpected NaNs in x_t")
@@ -115,9 +154,9 @@ def preprocessing():
             sys.exit("Unexpected NaNs in x_t_rad")
         if not np.sum(np.isnan(df_subj["b_t"])) == 0:
             sys.exit("Unexpected NaNs in b_t")
-        if not np.sum(np.isnan(df_subj["delta_t"])) == 8:
+        if not np.sum(np.isnan(df_subj["delta_t"])) == 6:
             sys.exit("Unexpected NaNs in delta_t")
-        if not np.sum(np.isnan(df_subj["a_t"])) == 8:
+        if not np.sum(np.isnan(df_subj["a_t"])) == 6:
             sys.exit("Unexpected NaNs in a_t")
         if not np.sum(np.isnan(df_subj["e_t"])) == 0:
             sys.exit("Unexpected NaNs in e_t")
@@ -149,11 +188,11 @@ def preprocessing():
         # print(np.sum(np.isnan(df_subj["initTend"])))
         if not np.sum(np.isnan(df_subj["trial"])) == 0:
             sys.exit("Unexpected NaNs in trial")
-        if not np.sum(np.isnan(df_subj["delta_t_rad"])) == 8:
+        if not np.sum(np.isnan(df_subj["delta_t_rad"])) == 6:
             sys.exit("Unexpected NaNs in delta_t_rad")
         if not np.sum(np.isnan(df_subj["e_t_rad"])) == 0:
             sys.exit("Unexpected NaNs in e_t_rad")
-        if not np.sum(np.isnan(df_subj["a_t_rad"])) == 8:
+        if not np.sum(np.isnan(df_subj["a_t_rad"])) == 6:
             sys.exit("Unexpected NaNs in a_t_rad")
         if not np.sum(np.isnan(df_subj["b_t_rad"])) == 0:
             sys.exit("Unexpected NaNs in b_t_rad")
@@ -165,10 +204,7 @@ def preprocessing():
             sys.exit("Unexpected NaNs in sigma")
         if not np.sum(np.isnan(df_subj["hit_dummy"])) == 0:
             sys.exit("Unexpected NaNs in hit_dummy")
-        if not np.sum(np.isnan(df_subj["pers"])) == 0:
-            sys.exit("Unexpected NaNs in pers")
-        if not np.sum(np.isnan(df_subj["group"])) == 0:
-            sys.exit("Unexpected NaNs in group")
+
 
     return data
 

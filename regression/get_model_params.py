@@ -12,8 +12,8 @@ import sys
 import numpy as np
 import pandas as pd
 
-from FOR_1_Paper.for_utilities import safe_save_dataframe
-from FOR_1_Paper.modeling.simulation_rbm import simulation_loop
+from for_utilities import safe_save_dataframe
+from modeling.simulation_rbm import simulation_loop
 
 # Set random number generator for reproducible results
 np.random.seed(123)

@@ -11,8 +11,8 @@ from allinpy import get_df_subj
 from rbmpy import AgentVars, AlAgent
 from tqdm import tqdm
 
-from FOR_1_Paper.for_utilities import get_sim_est_err
-from FOR_1_Paper.modeling.task_agent_int_rbm import task_agent_int
+from for_utilities import get_sim_est_err
+from modeling.task_agent_int_rbm import task_agent_int
 
 
 def simulation(

@@ -8,6 +8,7 @@ if __name__ == "__main__":
     from allinpy import latex_plt
     from rbmpy import parameter_summary
 
+
     import numpy as np
     import scipy.stats as stats
     import seaborn as sns
@@ -154,7 +155,7 @@ if __name__ == "__main__":
 
     grid_size = (3, 3)
     parameter_summary(model_2, behav_labels, grid_size, axis_labels=axis_labels)
-    plt.savefig("C:/Users/te65luf/Documents/Nextcloud/1_laufend_FOR_Statistical Learning (HH)/Auswertung/Confetti_beh/data/RU0226/winning_regression.png", dpi=400)
+    plt.savefig("C:/Users/te65luf/Documents/Nextcloud/1_laufend_FOR_Statistical Learning (HH)/Auswertung/Confetti_beh/data/RU0526/winning_regression.png", dpi=400)
 
     # Show plot
     plt.ioff()
@@ -174,7 +175,7 @@ if __name__ == "__main__":
 
     grid_size = (1, 2)
     parameter_summary_group(model_2, behav_labels, grid_size, axis_labels=axis_labels)
-    plt.savefig("C:/Users/te65luf/Documents/Nextcloud/1_laufend_FOR_Statistical Learning (HH)/Auswertung/Confetti_beh/data/RU0226/group_test.png", dpi=400)
+    plt.savefig("C:/Users/te65luf/Documents/Nextcloud/1_laufend_FOR_Statistical Learning (HH)/Auswertung/Confetti_beh/data/RU0526/group_test.png", dpi=400)
 
     # Show plot
     plt.ioff()
